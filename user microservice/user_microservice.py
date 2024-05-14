@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('USER_DB_USERNAME')}:{os.getenv('USER_DB_PASSWORD')}@localhost/{os.getenv('USER_DB_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('USER_DB_USERNAME')}:{os.getenv('USER_DB_PASSWORD')}@{os.getenv('HOST_IP_ADR')}:{os.getenv('DB_PORT')}/{os.getenv('USER_DB_NAME')}"
 db = SQLAlchemy(app)
 
 
@@ -15,6 +15,11 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+
+
+def initialize_database():
+    with app.app_context():
+        db.create_all()
 
 
 @app.route('/register', methods=['POST'])
@@ -45,4 +50,5 @@ def login():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8001)
+    initialize_database()
+    app.run(debug=True, host='0.0.0.0', port=5001)
