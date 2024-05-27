@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('POST_DB_USERNAME')}:{os.getenv('POST_DB_PASSWORD')}@localhost/{os.getenv('POST_DB_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('POST_DB_USERNAME')}:{os.getenv('POST_DB_PASSWORD')}@{os.getenv('HOST_IP_ADR')}:{os.getenv('DB_PORT')}/{os.getenv('POST_DB_NAME')}"
 db = SQLAlchemy(app)
 
 
@@ -16,6 +16,11 @@ class Post(db.Model):
     title = db.Column(db.String(120), nullable=False)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
+
+
+def initialize_database():
+    with app.app_context():
+        db.create_all()
 
 
 @app.route('/create_post', methods=['POST'])
@@ -33,4 +38,5 @@ def create_post():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8002)
+    initialize_database()
+    app.run(debug=True, host='0.0.0.0', port=5002)
