@@ -1,0 +1,49 @@
+# postgres-post.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-post
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-post
+  template:
+    metadata:
+      labels:
+        app: postgres-post
+    spec:
+      containers:
+      - name: postgres-post
+        image: postgres:13-alpine
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: otter-post-db-credentials
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: otter-post-db-credentials
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: otter-post-db-credentials
+              key: POSTGRES_PASSWORD
+        ports:
+        - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-post
+spec:
+  selector:
+    app: postgres-post
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+

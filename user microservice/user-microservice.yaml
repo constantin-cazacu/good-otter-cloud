@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-microservice
+  template:
+    metadata:
+      labels:
+        app: user-microservice
+    spec:
+      containers:
+      - name: user-microservice
+        image: koost07/user-microservice:latest
+        env:
+        - name: USER_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: otter-user-db-credentials
+              key: POSTGRES_USER
+        - name: USER_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: otter-user-db-credentials
+              key: POSTGRES_PASSWORD
+        - name: HOST_IP_ADR
+          value: "postgres-user"
+        - name: DB_PORT
+          value: "5432"
+        - name: USER_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: otter-user-db-credentials
+              key: POSTGRES_DB
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-microservice
+spec:
+  selector:
+    app: user-microservice
+  ports:
+  - protocol: TCP
+    port: 5001
+    targetPort: 5001

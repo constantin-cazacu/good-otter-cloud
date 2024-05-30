@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.9-alpine
 
 # Set environment variables
 ENV USER_DB_USERNAME=postgres
