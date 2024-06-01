@@ -1,5 +1,5 @@
 # Use the official Python image as base
-FROM python:3.9-slim
+FROM python:3.9-alpine
 
 # Set environment variables
 ENV POST_DB_USERNAME=postgres
