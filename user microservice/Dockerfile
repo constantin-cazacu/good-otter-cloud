@@ -6,7 +6,7 @@ ENV USER_DB_USERNAME=postgres
 ENV USER_DB_PASSWORD=0707
 ENV HOST_IP_ADR=35.195.20.33
 ENV DB_PORT=5432
-ENV USER_DB_NAME=otter-user-database
+ENV USER_DB_NAME=invertible-tree-425018-u6:europe-west1:otter-user-database
 
 # Set the working directory in the container
 WORKDIR /app
