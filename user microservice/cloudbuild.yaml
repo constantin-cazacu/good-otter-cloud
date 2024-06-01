@@ -1,7 +1,7 @@
 # cloudbuild.yaml
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/user-microservice', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/user-microservice', '-f', 'app/Dockerfile', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/user-microservice']
 - name: 'gcr.io/cloud-builders/gcloud'
