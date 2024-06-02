@@ -5,7 +5,14 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/user-microservice']
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['run', 'deploy', 'user-microservice', '--image', 'gcr.io/$PROJECT_ID/user-microservice', '--platform', 'managed', '--region', 'europe-west1', '--allow-unauthenticated', '--add-cloudsql-instances', 'invertible-tree-425018-u6:europe-west1:otter-user-database', '--port', '5001']
+  args: ['run', 'deploy', 'user-microservice',
+         '--image', 'gcr.io/$PROJECT_ID/user-microservice',
+         '--platform', 'managed',
+         '--region', 'europe-west1',
+         '--allow-unauthenticated',
+         '--add-cloudsql-instances', 'invertible-tree-425018-u6:europe-west1:otter-user-database',
+         '--update-env-vars', 'DB_HOST=/cloudsql/invertible-tree-425018-u6:europe-west1:otter-postgresql,DB_USER=postgres,DB_PASS=0707,DB_NAME=otter_user_database',
+         '--port', '5001']
 
 images:
 - 'gcr.io/$PROJECT_ID/user-microservice'
