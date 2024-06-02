@@ -11,7 +11,7 @@ steps:
          '--region', 'europe-west1',
          '--allow-unauthenticated',
          '--add-cloudsql-instances', 'invertible-tree-425018-u6:europe-west1:otter-postgresq',
-	 '--service-accountcloud', '-sql-access@invertible-tree-425018-u6.iam.gserviceaccount.com',
+	 '--service-account', 'cloud-sql-access@invertible-tree-425018-u6.iam.gserviceaccount.com',
          '--update-env-vars', 'DB_HOST=/cloudsql/invertible-tree-425018-u6:europe-west1:otter-postgresql,DB_USER=postgres,DB_PASS=0707,DB_NAME=otter_user_database',
          '--port', '5001']
 
