@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('USER_DB_USERNAME')}:{os.getenv('USER_DB_PASSWORD')}@{os.getenv('HOST_IP_ADR')}:{os.getenv('DB_PORT')}/{os.getenv('USER_DB_NAME')}"
+# app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('USER_DB_USERNAME')}:{os.getenv('USER_DB_PASSWORD')}@{os.getenv('HOST_IP_ADR')}:{os.getenv('DB_PORT')}/{os.getenv('USER_DB_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}@/{os.getenv('DB_NAME')}?host={os.getenv('DB_HOST')}"
 db = SQLAlchemy(app)
 
 
