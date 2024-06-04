@@ -1,0 +1,19 @@
+# cloudbuild.yaml
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/post-microservice', '-f', 'post microservice/Dockerfile', 'post microservice']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/post-microservice']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', 'post-microservice',
+         '--image', 'gcr.io/$PROJECT_ID/post-microservice',
+         '--platform', 'managed',
+         '--region', 'europe-west1',
+         '--allow-unauthenticated',
+         '--add-cloudsql-instances', 'invertible-tree-425018-u6:europe-west1:otter-postgresql',
+         '--service-account', 'cloud-sql-access@invertible-tree-425018-u6.iam.gserviceaccount.com',
+         '--update-env-vars', 'DB_HOST=/cloudsql/invertible-tree-425018-u6:europe-west1:otter-postgresql,DB_USER=postgres,DB_PASS=0707,DB_NAME=otter_post_database',
+         '--port', '5002']
+
+images:
+- 'gcr.io/$PROJECT_ID/post-microservice'

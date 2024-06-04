@@ -2,11 +2,11 @@
 FROM python:3.9-alpine
 
 # Set environment variables
-ENV POST_DB_USERNAME=postgres
-ENV POST_DB_PASSWORD=0707
-ENV HOST_IP_ADR=172.21.224.1
-ENV DB_PORT=5432
-ENV POST_DB_NAME=otter_post_database
+#ENV POST_DB_USERNAME=postgres
+#ENV POST_DB_PASSWORD=0707
+#ENV HOST_IP_ADR=172.21.224.1
+#ENV DB_PORT=5432
+#ENV POST_DB_NAME=otter_post_database
 
 # Set the working directory in the container
 WORKDIR /app
